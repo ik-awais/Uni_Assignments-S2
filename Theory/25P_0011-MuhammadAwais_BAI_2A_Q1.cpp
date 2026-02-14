@@ -21,52 +21,47 @@ int main()
         {
             if (choice == 1)
             {
-                char string1[] = "Pakistan";
-                char string2[] = "My country is  ";
+                cout << "Enter 2 strings to be concatenated: " << endl;
+                char string1[100];
+                char string2[100];
+                cin.ignore();
+                cin.getline(string1, 100);
+                cin.getline(string2, 100);
                 StringConcatenate(string1, string2);
             }
             else if (choice == 2)
             {
-                char string[] = "Muhammad Awais";
+                cin.ignore();
+                char string[100];
+                cin.getline(string, 100);
                 CompressString(string);
             }
             else if (choice == 3)
             {
-                char sentence[] = "My country is Pakistan ";
+                char sentence[100];
+                cin.ignore();
+                cin.getline(sentence, 100);
                 char *reversedptr = ReverseSentence(sentence);
                 for(int i = 0; (*(reversedptr + i)) != '\0'; i++)
                 {
                     cout << *(reversedptr + i);
                 }
+                cout << endl;
                 delete[] reversedptr;
             }
             else if (choice == 4)
-            {
-                int count = 3;
-                char **words2D = new char* [count];
+            {   int count;
+                cin >> count;
+                char **words2D = new char*[count];
                 for(int i = 0; i < count; i++)
                 {
-                    *(words2D + i) = new char[20]; //Allocates memory for words = count
+                    *(words2D + i) = new char[20];
                 }
-                char words[] = "Apple Box Cherry";
-                int i = 0, j = 0, k = 0;
-                while(*(words + i) != '\0')
+                cin.ignore();
+                for(int i = 0; i < count; i++)
                 {
-                    if(*(words + i) == ' ')
-                    {
-                        *(*(words2D + j)+ k) = '\0';
-                        i++;
-                        j++;
-                        k = 0;
-                    }
-                    else
-                    {
-                        *(*(words2D + j) + k) = *(words + i);
-                        k++;
-                        i++; 
-                    }         
+                    cin.getline(*(words2D + i), 20);   
                 }
-                *(*(words2D + j) + k) = '\0';
                 pluralWords(words2D, count);
                 for(int i = 0; i < count; i++)
                 {
@@ -146,17 +141,13 @@ void StringConcatenate(char *str1, char *str2)
         i++;
     }
     i = 0;
-    while(1)
+    while(i < SIZE)
     {
         cout << *(str2 + i);
-        if(i == SIZE)
-        {   
-            *(str2 + i) = '\0';
-            cout << endl;
-            break;
-        }
         i++;
     }
+    cout << endl;
+    *(str2 + i) = '\0';
     delete[] str2;
 }
 void CompressString(char *compress){
@@ -340,7 +331,7 @@ void pluralWords(char **s, int wordCount){
             }
             else
             {
-                char *plural = new char[*(lettersCount + i) + 1];
+                char *plural = new char[*(lettersCount + i) + 2];
                 int j;
                     for(j = 0; j < (*(lettersCount + i) - 2); j++)
                     {
@@ -433,7 +424,7 @@ void pluralWords(char **s, int wordCount){
                     *(s + i) = plural;
         }
     }
-    cout << "\nPluraized words: ";
+    cout << "Pluralized words: ";
     for (int i = 0; i < wordCount; i++)
     {
         cout << *(s + i) << ' ';
