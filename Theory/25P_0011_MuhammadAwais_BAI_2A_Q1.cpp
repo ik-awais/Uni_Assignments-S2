@@ -14,9 +14,10 @@ void pluralWords(char **s, int wordCount);
 int main()
 {
     int choice;
+    //Created a function to Display the Menu working in an infinite loop
     while (1)
     {
-        choice = Display_Menu();
+        choice = Display_Menu(); 
         if (choice != 0)
         {
             if (choice == 1)
@@ -24,7 +25,10 @@ int main()
                 cout << "Enter 2 strings to be concatenated: " << endl;
                 char string1[100];
                 char string2[100];
+                // To keep the buffer clean, used cin.ignore
                 cin.ignore();
+                // cin.getline works same as getline(cin, stringName)
+                //  but for C language
                 cin.getline(string1, 100);
                 cin.getline(string2, 100);
                 StringConcatenate(string1, string2);
@@ -41,6 +45,8 @@ int main()
                 char sentence[100];
                 cin.ignore();
                 cin.getline(sentence, 100);
+                // Since ReverseSentence function was a char pointer type
+                // function, hence saved the returned pointer and displayed
                 char *reversedptr = ReverseSentence(sentence);
                 for(int i = 0; (*(reversedptr + i)) != '\0'; i++)
                 {
@@ -53,11 +59,13 @@ int main()
             {   int count;
                 cin >> count;
                 char **words2D = new char*[count];
+                // Allocating memory for each word
                 for(int i = 0; i < count; i++)
                 {
                     *(words2D + i) = new char[20];
                 }
                 cin.ignore();
+                // Taking input of each word
                 for(int i = 0; i < count; i++)
                 {
                     cin.getline(*(words2D + i), 20);   
@@ -65,9 +73,11 @@ int main()
                 pluralWords(words2D, count);
                 for(int i = 0; i < count; i++)
                 {
-                    delete[] *(words2D + i); //Frees allocated memory of words
+                    //Frees allocated memory of words
+                    delete[] *(words2D + i);
                 }
-                delete[] words2D; //Frees the double pointer
+                //Frees the double pointer
+                delete[] words2D; 
 
             }
             else
@@ -102,6 +112,9 @@ int Display_Menu()
         return 0;
     }
 }
+// Since following block of code was being
+// reused over and over again, hence it was cleaner
+// to use a separate function for it.
 int StringLength(char *str)
 {
     int i = 0, size = 0;
@@ -112,6 +125,9 @@ int StringLength(char *str)
     }
     return size;
 }
+// Using string library wasn't allowed
+// So I had to use this function to copy strings
+// into my Dynamically Allocated Memory
 void StringCopy(char *org, char*copied){
     int i;
     for(i = 0; *(org + i) != '\0'; i++)
@@ -120,13 +136,14 @@ void StringCopy(char *org, char*copied){
     }
     *(copied + i) = '\0';
 }
-
 void StringConcatenate(char *str1, char *str2)
 {
     int size1 = StringLength(str1);
     int size2 = StringLength(str2);
     const int SIZE = size1 + size2;
     char *temp = str2;
+    // Creating a new string for the final result
+    // wasn't allowed so I overwrote str2
     str2 = new char[SIZE + 1];
     int i = 0; 
     while(*(temp + i) != '\0')
@@ -140,6 +157,10 @@ void StringConcatenate(char *str1, char *str2)
         *(str2 + (size2 + i)) = *(str1 + i); 
         i++;
     }
+    // Null character determines when a string ends
+    // so manually added it at the end of the string after
+    // copying all the characters from str1
+    *(str2 + i) = '\0';
     i = 0;
     while(i < SIZE)
     {
@@ -147,12 +168,15 @@ void StringConcatenate(char *str1, char *str2)
         i++;
     }
     cout << endl;
-    *(str2 + i) = '\0';
     delete[] str2;
 }
 void CompressString(char *compress){
     int size = StringLength(compress);
     int i = 0, j, k;
+    // The algorithm used for concatenating string
+    // was to shift the array from right to left whenever a duplicated 
+    // character was detected
+    // The following tree of loops is the algorithm in action
     while (*(compress + i) != '\0')
     {
         j = i + 1;
@@ -184,6 +208,12 @@ char *ReverseSentence(char *orgsentence){
     int size = StringLength(orgsentence);
     char *reversedSentence = new char[size + 1];
     int k = 0, temp = 0;
+    // Null character & space between words were the main
+    // center of focus in the following logic
+    // I started from the end of sentence. 
+    // As soon as a space was detected. I overwrote the space character
+    // by null character. Copied all then from left to right until I might the
+    // null character. Wholesome and doable logic it was.
     for(int i = size - 1; i >= 0; i--)
     {
         if(*(orgsentence + i) == ' ')
@@ -205,7 +235,9 @@ char *ReverseSentence(char *orgsentence){
             i = temp;
             *(orgsentence + i) = '\0';
         }
-    } 
+    }
+    // Since there is no space before the first word
+    // I had to apply an additional loop for the very first word
     int j = 0;
     while(*(orgsentence + j) != '\0')
     {
@@ -222,7 +254,11 @@ void pluralWords(char **s, int wordCount){
     {
        *(lettersCount + i) = StringLength(*(s + i)); //Checks how long a word is
     }
+    // The rule worked max till last 3 characters of a word. 
+    // so created these 3 variables to keep a track of those characters
     int lastChar, seclastChar, thirdlastChar;
+    // The following loop with body of 100 lines
+    // iterates over for each word. 
     for(int i = 0; i < wordCount; i++)
     {   
         if(*(lettersCount + i) >= 2)
@@ -433,3 +469,6 @@ void pluralWords(char **s, int wordCount){
     delete[] lettersCount;
     
 }
+
+// Thankyou Aais Bhai for such an extensive and 
+// productive problem
