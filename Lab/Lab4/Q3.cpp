@@ -1,3 +1,29 @@
+// Create an array of 5 mobiles, take input for megapixels and price with validation, price ≥ 0 and megapixels > 0.
+
+// Then make one user defined function, which will have the following functionalities:
+
+// a. Display all mobiles
+// b. Find the most expensive mobile
+// c. Show the highest camera megapixels
+// d. Calculate the average price
+// e. Count mobiles having camera ≥ 50 MP
+
+// Input Section:
+
+// Repeat 5 times for different data
+
+// Example shown:
+// Enter data for Mobile 1
+// Enter Megapixels, > 0: 48
+// Enter Price, ≥ 0: 500
+
+// Output Section:
+
+// Most Expensive Price: 800
+// Highest Camera MP: 60
+// Average Price: 610
+// Mobiles with Camera ≥ 50MP: 3
+
 #include <iostream>
 using namespace std;
 
